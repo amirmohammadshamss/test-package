@@ -1,0 +1,1 @@
+{"version":3,"file":"canUseDOM.js","sourceRoot":"","sources":["../../../src/shared/src/canUseDOM.ts"],"names":[],"mappings":";;;AAQa,QAAA,WAAW,GACtB,OAAO,MAAM,KAAK,WAAW;IAC7B,OAAO,MAAM,CAAC,QAAQ,KAAK,WAAW;IACtC,OAAO,MAAM,CAAC,QAAQ,CAAC,aAAa,KAAK,WAAW,CAAC"}
