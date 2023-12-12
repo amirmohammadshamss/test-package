@@ -5,11 +5,14 @@
     "types": "index.d.ts",
     "description": "A simple npm package",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Your Name",
     "license": "MIT",
-  "devDependencies": {
-    "typescript": "^5.3.3"
-  }
+    "devDependencies": {
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.3.3",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4"
+    }
 }
