@@ -8,12 +8,12 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['.ts', '.js'], // Include '.ts' extension
+    extensions: ['.ts', '.tsx', '.js'], // Include '.tsx' for TypeScript React files
   },
   module: {
     rules: [
       {
-        test: /\.ts$/, // Match .ts files
+        test: /\.tsx?$/, // Match .ts or .tsx files
         use: 'ts-loader',
         exclude: /node_modules/,
       },
