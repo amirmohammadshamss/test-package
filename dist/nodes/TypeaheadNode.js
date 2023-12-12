@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.$createTypeaheadNode = exports.TypeaheadNode = void 0;
+exports.TypeaheadNode = void 0;
 const lexical_1 = require("lexical");
 class TypeaheadNode extends lexical_1.TextNode {
     static clone(node) {
@@ -8,14 +8,6 @@ class TypeaheadNode extends lexical_1.TextNode {
     }
     static getType() {
         return 'typeahead';
-    }
-    static importJSON(serializedNode) {
-        const node = $createTypeaheadNode(serializedNode.text);
-        node.setFormat(serializedNode.format);
-        node.setDetail(serializedNode.detail);
-        node.setMode(serializedNode.mode);
-        node.setStyle(serializedNode.style);
-        return node;
     }
     exportJSON() {
         return {
@@ -31,8 +23,4 @@ class TypeaheadNode extends lexical_1.TextNode {
     }
 }
 exports.TypeaheadNode = TypeaheadNode;
-function $createTypeaheadNode(text) {
-    return new TypeaheadNode(text).setMode('inert');
-}
-exports.$createTypeaheadNode = $createTypeaheadNode;
 //# sourceMappingURL=TypeaheadNode.js.map

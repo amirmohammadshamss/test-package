@@ -28,17 +28,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$createStickyNode = exports.$isStickyNode = exports.StickyNode = void 0;
 require("./StickyNode.css");
-const LexicalCollaborationPlugin_1 = require("@lexical/react/LexicalCollaborationPlugin");
 const LexicalComposerContext_1 = require("@lexical/react/LexicalComposerContext");
-const LexicalHistoryPlugin_1 = require("@lexical/react/LexicalHistoryPlugin");
 const LexicalNestedComposer_1 = require("@lexical/react/LexicalNestedComposer");
 const LexicalPlainTextPlugin_1 = require("@lexical/react/LexicalPlainTextPlugin");
 const lexical_1 = require("lexical");
 const React = __importStar(require("react"));
 const react_1 = require("react");
 const react_dom_1 = require("react-dom");
-const getDOMSelection_1 = __importDefault(require("../shared/src/getDOMSelection"));
-const collaboration_1 = require("../collaboration");
 const SharedHistoryContext_1 = require("../context/SharedHistoryContext");
 const StickyEditorTheme_1 = __importDefault(require("../themes/StickyEditorTheme"));
 const ContentEditable_1 = __importDefault(require("../ui/ContentEditable"));
@@ -62,8 +58,6 @@ function StickyComponent({ x, y, nodeKey, color, caption, }) {
         x: 0,
         y: 0,
     });
-    const { yjsDocMap } = (0, LexicalCollaborationPlugin_1.useCollaborationContext)();
-    const isCollab = yjsDocMap.get('main') !== undefined;
     (0, react_1.useEffect)(() => {
         const position = positioningRef.current;
         position.x = x;
@@ -73,41 +67,6 @@ function StickyComponent({ x, y, nodeKey, color, caption, }) {
             positionSticky(stickyContainer, position);
         }
     }, [x, y]);
-    (0, getDOMSelection_1.default)(() => {
-        const position = positioningRef.current;
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (let i = 0; i < entries.length; i++) {
-                const entry = entries[i];
-                const { target } = entry;
-                position.rootElementRect = target.getBoundingClientRect();
-                const stickyContainer = stickyContainerRef.current;
-                if (stickyContainer !== null) {
-                    positionSticky(stickyContainer, position);
-                }
-            }
-        });
-        const removeRootListener = editor.registerRootListener((nextRootElem, prevRootElem) => {
-            if (prevRootElem !== null) {
-                resizeObserver.unobserve(prevRootElem);
-            }
-            if (nextRootElem !== null) {
-                resizeObserver.observe(nextRootElem);
-            }
-        });
-        const handleWindowResize = () => {
-            const rootElement = editor.getRootElement();
-            const stickyContainer = stickyContainerRef.current;
-            if (rootElement !== null && stickyContainer !== null) {
-                position.rootElementRect = rootElement.getBoundingClientRect();
-                positionSticky(stickyContainer, position);
-            }
-        };
-        window.addEventListener('resize', handleWindowResize);
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-            removeRootListener();
-        };
-    }, [editor]);
     (0, react_1.useEffect)(() => {
         const stickyContainer = stickyContainerRef.current;
         if (stickyContainer !== null) {
@@ -186,8 +145,7 @@ function StickyComponent({ x, y, nodeKey, color, caption, }) {
             React.createElement("button", { onClick: handleColorChange, className: "color", "aria-label": "Change sticky note color", title: "Color" },
                 React.createElement("i", { className: "bucket" })),
             React.createElement(LexicalNestedComposer_1.LexicalNestedComposer, { initialEditor: caption, initialTheme: StickyEditorTheme_1.default },
-                isCollab ? (React.createElement(LexicalCollaborationPlugin_1.CollaborationPlugin, { id: caption.getKey(), providerFactory: collaboration_1.createWebsocketProvider, shouldBootstrap: true })) : (React.createElement(LexicalHistoryPlugin_1.HistoryPlugin, { externalHistoryState: historyState })),
-                React.createElement(LexicalPlainTextPlugin_1.PlainTextPlugin, { contentEditable: React.createElement(ContentEditable_1.default, { className: "StickyNode__contentEditable" }), placeholder: React.createElement(Placeholder_1.default, { className: "StickyNode__placeholder" }, "What's up?"), initialEditorState: null })))));
+                React.createElement(LexicalPlainTextPlugin_1.PlainTextPlugin, { contentEditable: React.createElement(ContentEditable_1.default, { className: "StickyNode__contentEditable" }), placeholder: React.createElement(Placeholder_1.default, { className: "StickyNode__placeholder" }, "What's up?"), ErrorBoundary: undefined })))));
 }
 class StickyNode extends lexical_1.DecoratorNode {
     static getType() {

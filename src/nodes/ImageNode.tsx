@@ -26,7 +26,6 @@ import './ImageNode.css';
 
 import {
   CollaborationPlugin,
-  useCollaborationContext,
 } from '@lexical/react/LexicalCollaborationPlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {HashtagPlugin} from '@lexical/react/LexicalHashtagPlugin';
@@ -158,9 +157,8 @@ function ImageComponent({
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey);
   const [isResizing, setIsResizing] = useState<boolean>(false);
-  const {yjsDocMap} = useCollaborationContext();
   const [editor] = useLexicalComposerContext();
-  const isCollab = yjsDocMap.get('main') !== undefined;
+
   const [selection, setSelection] = useState<
     RangeSelection | NodeSelection | GridSelection | null
   >(null);
@@ -184,7 +182,7 @@ function ImageComponent({
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({editorState}) => {
-        setSelection(editorState.read(() => $getSelection()));
+   
       }),
       editor.registerCommand<MouseEvent>(
         CLICK_COMMAND,
@@ -290,26 +288,13 @@ function ImageComponent({
               <EmojisPlugin />
               <HashtagPlugin />
               <KeywordsPlugin />
-              {isCollab ? (
-                <CollaborationPlugin
-                  id={caption.getKey()}
-                  providerFactory={createWebsocketProvider}
-                  shouldBootstrap={true}
-                />
-              ) : (
-                <HistoryPlugin externalHistoryState={historyState} />
-              )}
+             
               <RichTextPlugin
-                contentEditable={
-                  <ContentEditable className="ImageNode__contentEditable" />
-                }
-                placeholder={
-                  <Placeholder className="ImageNode__placeholder">
-                    Enter a caption...
-                  </Placeholder>
-                }
-                // TODO Remove after it's inherited from the parent (LexicalComposer)
-                initialEditorState={null}
+                contentEditable={<ContentEditable className="ImageNode__contentEditable" />}
+                placeholder={<Placeholder className="ImageNode__placeholder">
+                  Enter a caption...
+                </Placeholder>} ErrorBoundary={undefined}                // TODO Remove after it's inherited from the parent (LexicalComposer)
+               
               />
               {showNestedEditorTreeView === true ? <TreeViewPlugin /> : null}
             </LexicalNestedComposer>

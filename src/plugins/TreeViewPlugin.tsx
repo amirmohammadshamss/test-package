@@ -19,7 +19,6 @@ export default function TreeViewPlugin(): JSX.Element {
       timeTravelButtonClassName="debug-timetravel-button"
       timeTravelPanelSliderClassName="debug-timetravel-panel-slider"
       timeTravelPanelButtonClassName="debug-timetravel-panel-button"
-      editor={editor}
-    />
+      editor={editor} treeTypeButtonClassName={''}    />
   );
 }

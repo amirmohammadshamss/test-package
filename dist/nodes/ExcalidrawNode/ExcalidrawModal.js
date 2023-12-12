@@ -27,7 +27,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./ExcalidrawModal.css");
-const excalidraw_1 = __importDefault(require("@excalidraw/excalidraw"));
 const React = __importStar(require("react"));
 const react_1 = require("react");
 const react_dom_1 = require("react-dom");
@@ -102,15 +101,10 @@ function ExcalidrawModal({ closeOnClickOutside = false, onSave, initialElements,
     const onChange = (els) => {
         setElements(els);
     };
-    const _Excalidraw = excalidraw_1.default.$$typeof != null ? excalidraw_1.default : excalidraw_1.default.default;
     return (0, react_dom_1.createPortal)(React.createElement("div", { className: "ExcalidrawModal__overlay", role: "dialog" },
         React.createElement("div", { className: "ExcalidrawModal__modal", ref: excaliDrawModelRef, tabIndex: -1 },
             React.createElement("div", { className: "ExcalidrawModal__row" },
                 discardModalOpen && React.createElement(ShowDiscardDialog, null),
-                React.createElement(_Excalidraw, { onChange: onChange, initialData: {
-                        appState: { isLoading: false },
-                        elements: initialElements,
-                    } }),
                 React.createElement("div", { className: "ExcalidrawModal__actions" },
                     React.createElement("button", { className: "action-button", onClick: discard }, "Discard"),
                     React.createElement("button", { className: "action-button", onClick: save }, "Save"))))), document.body);

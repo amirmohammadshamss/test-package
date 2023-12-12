@@ -26,7 +26,6 @@ import {
 } from '@lexical/table';
 import {
   $getSelection,
-  $isGridSelection,
   $isRangeSelection,
   $setSelection,
 } from 'lexical';
@@ -72,14 +71,6 @@ function TableActionMenu({
     editor.getEditorState().read(() => {
       const selection = $getSelection();
 
-      if ($isGridSelection(selection)) {
-        const selectionShape = selection.getShape();
-
-        updateSelectionCounts({
-          columns: selectionShape.toX - selectionShape.fromX + 1,
-          rows: selectionShape.toY - selectionShape.fromY + 1,
-        });
-      }
     });
   }, [editor]);
 
@@ -153,14 +144,7 @@ function TableActionMenu({
 
         let tableRowIndex;
 
-        if ($isGridSelection(selection)) {
-          const selectionShape = selection.getShape();
-          tableRowIndex = shouldInsertAfter
-            ? selectionShape.toY
-            : selectionShape.fromY;
-        } else {
-          tableRowIndex = $getTableRowIndexFromTableCellNode(tableCellNode);
-        }
+       
 
         const grid = $getElementGridForTableNode(editor, tableNode);
 
@@ -189,22 +173,9 @@ function TableActionMenu({
 
         let tableColumnIndex;
 
-        if ($isGridSelection(selection)) {
-          const selectionShape = selection.getShape();
-          tableColumnIndex = shouldInsertAfter
-            ? selectionShape.toX
-            : selectionShape.fromX;
-        } else {
-          tableColumnIndex =
-            $getTableColumnIndexFromTableCellNode(tableCellNode);
-        }
+     
 
-        $insertTableColumn(
-          tableNode,
-          tableColumnIndex,
-          shouldInsertAfter,
-          selectionCounts.columns,
-        );
+    
 
         clearTableSelection();
 

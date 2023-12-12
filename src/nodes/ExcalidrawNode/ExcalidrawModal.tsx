@@ -153,8 +153,6 @@ export default function ExcalidrawModal({
   // This is a hacky work-around for Excalidraw + Vite.
   // In DEV, Vite pulls this in fine, in prod it doesn't. It seems
   // like a module resolution issue with ESM vs CJS?
-  const _Excalidraw =
-    Excalidraw.$$typeof != null ? Excalidraw : Excalidraw.default;
 
   return createPortal(
     <div className="ExcalidrawModal__overlay" role="dialog">
@@ -164,13 +162,7 @@ export default function ExcalidrawModal({
         tabIndex={-1}>
         <div className="ExcalidrawModal__row">
           {discardModalOpen && <ShowDiscardDialog />}
-          <_Excalidraw
-            onChange={onChange}
-            initialData={{
-              appState: {isLoading: false},
-              elements: initialElements,
-            }}
-          />
+         
           <div className="ExcalidrawModal__actions">
             <button className="action-button" onClick={discard}>
               Discard

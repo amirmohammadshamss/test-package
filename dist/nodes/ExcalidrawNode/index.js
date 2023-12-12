@@ -35,10 +35,8 @@ const React = __importStar(require("react"));
 const react_1 = require("react");
 const ImageResizer_1 = __importDefault(require("../../ui/ImageResizer"));
 const ExcalidrawImage_1 = __importDefault(require("./ExcalidrawImage"));
-const ExcalidrawModal_1 = __importDefault(require("./ExcalidrawModal"));
 function ExcalidrawComponent({ nodeKey, data, }) {
     const [editor] = (0, LexicalComposerContext_1.useLexicalComposerContext)();
-    const [isModalOpen, setModalOpen] = (0, react_1.useState)(data === '[]' && !editor.isReadOnly());
     const imageContainerRef = (0, react_1.useRef)(null);
     const buttonRef = (0, react_1.useRef)(null);
     const [isSelected, setSelected, clearSelection] = (0, useLexicalNodeSelection_1.useLexicalNodeSelection)(nodeKey);
@@ -57,14 +55,6 @@ function ExcalidrawComponent({ nodeKey, data, }) {
         return false;
     }, [editor, isSelected, nodeKey, setSelected]);
     (0, react_1.useEffect)(() => {
-        if (isModalOpen) {
-            editor.setReadOnly(true);
-        }
-        else {
-            editor.setReadOnly(false);
-        }
-    }, [isModalOpen, editor]);
-    (0, react_1.useEffect)(() => {
         return (0, utils_1.mergeRegister)(editor.registerCommand(lexical_1.CLICK_COMMAND, (event) => {
             const buttonElem = buttonRef.current;
             const eventTarget = event.target;
@@ -77,7 +67,6 @@ function ExcalidrawComponent({ nodeKey, data, }) {
                 }
                 setSelected(!isSelected);
                 if (event.detail > 1) {
-                    setModalOpen(true);
                 }
                 return true;
             }
@@ -85,18 +74,8 @@ function ExcalidrawComponent({ nodeKey, data, }) {
         }, lexical_1.COMMAND_PRIORITY_LOW), editor.registerCommand(lexical_1.KEY_DELETE_COMMAND, onDelete, lexical_1.COMMAND_PRIORITY_LOW), editor.registerCommand(lexical_1.KEY_BACKSPACE_COMMAND, onDelete, lexical_1.COMMAND_PRIORITY_LOW));
     }, [clearSelection, editor, isSelected, isResizing, onDelete, setSelected]);
     const deleteNode = (0, react_1.useCallback)(() => {
-        setModalOpen(false);
-        return editor.update(() => {
-            const node = (0, lexical_1.$getNodeByKey)(nodeKey);
-            if ($isExcalidrawNode(node)) {
-                node.remove();
-            }
-        });
     }, [editor, nodeKey]);
     const setData = (newData) => {
-        if (editor.isReadOnly()) {
-            return;
-        }
         return editor.update(() => {
             const node = (0, lexical_1.$getNodeByKey)(nodeKey);
             if ($isExcalidrawNode(node)) {
@@ -118,18 +97,9 @@ function ExcalidrawComponent({ nodeKey, data, }) {
         }, 200);
     };
     const elements = (0, react_1.useMemo)(() => JSON.parse(data), [data]);
-    return (React.createElement(React.Fragment, null,
-        React.createElement(ExcalidrawModal_1.default, { initialElements: elements, isShown: isModalOpen, onDelete: deleteNode, onHide: () => {
-                editor.setReadOnly(false);
-                setModalOpen(false);
-            }, onSave: (newData) => {
-                editor.setReadOnly(false);
-                setData(newData);
-                setModalOpen(false);
-            }, closeOnClickOutside: true }),
-        elements.length > 0 && (React.createElement("button", { ref: buttonRef, className: `excalidraw-button ${isSelected ? 'selected' : ''}` },
-            React.createElement(ExcalidrawImage_1.default, { imageContainerRef: imageContainerRef, className: "image", elements: elements }),
-            (isSelected || isResizing) && (React.createElement(ImageResizer_1.default, { showCaption: true, setShowCaption: () => null, imageRef: imageContainerRef, editor: editor, onResizeStart: onResizeStart, onResizeEnd: onResizeEnd }))))));
+    return (React.createElement(React.Fragment, null, elements.length > 0 && (React.createElement("button", { ref: buttonRef, className: `excalidraw-button ${isSelected ? 'selected' : ''}` },
+        React.createElement(ExcalidrawImage_1.default, { imageContainerRef: imageContainerRef, className: "image", elements: elements }),
+        (isSelected || isResizing) && (React.createElement(ImageResizer_1.default, { showCaption: true, setShowCaption: () => null, imageRef: imageContainerRef, editor: editor, onResizeStart: onResizeStart, onResizeEnd: onResizeEnd }))))));
 }
 function convertExcalidrawElement(domNode) {
     const excalidrawData = domNode.getAttribute('data-lexical-excalidraw-json');

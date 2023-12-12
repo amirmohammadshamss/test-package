@@ -27,14 +27,7 @@ export class TypeaheadNode extends TextNode {
     return 'typeahead';
   }
 
-  static importJSON(serializedNode: SerializedTypeaheadNode): TypeaheadNode {
-    const node = $createTypeaheadNode(serializedNode.text);
-    node.setFormat(serializedNode.format);
-    node.setDetail(serializedNode.detail);
-    node.setMode(serializedNode.mode);
-    node.setStyle(serializedNode.style);
-    return node;
-  }
+
 
   exportJSON(): SerializedTypeaheadNode {
     return {
@@ -51,6 +44,4 @@ export class TypeaheadNode extends TextNode {
   }
 }
 
-export function $createTypeaheadNode(text: string): TypeaheadNode {
-  return new TypeaheadNode(text).setMode('inert');
-}
+

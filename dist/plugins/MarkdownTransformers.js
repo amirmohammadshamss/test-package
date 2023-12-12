@@ -24,6 +24,7 @@ exports.HR = {
         line.selectNext();
     },
     type: 'element',
+    dependencies: []
 };
 exports.IMAGE = {
     export: (node, exportChildren, exportFormat) => {
@@ -45,6 +46,7 @@ exports.IMAGE = {
     },
     trigger: ')',
     type: 'text-match',
+    dependencies: []
 };
 exports.EQUATION = {
     export: (node, exportChildren, exportFormat) => {
@@ -62,6 +64,7 @@ exports.EQUATION = {
     },
     trigger: '$',
     type: 'text-match',
+    dependencies: []
 };
 exports.TWEET = {
     export: (node) => {
@@ -77,6 +80,7 @@ exports.TWEET = {
         textNode.replace(tweetNode);
     },
     type: 'element',
+    dependencies: []
 };
 const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/;
 exports.TABLE = {
@@ -148,6 +152,7 @@ exports.TABLE = {
         table.selectEnd();
     },
     type: 'element',
+    dependencies: []
 };
 function getTableColumnsSize(table) {
     const row = table.getFirstChild();

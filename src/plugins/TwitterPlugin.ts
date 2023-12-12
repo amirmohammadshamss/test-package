@@ -11,7 +11,6 @@ import {
   $createParagraphNode,
   $getRoot,
   $getSelection,
-  $isGridSelection,
   $isNodeSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_EDITOR,
@@ -40,7 +39,7 @@ export default function TwitterPlugin(): JSX.Element | null {
         if ($isRangeSelection(selection)) {
           const focusNode = selection.focus.getNode();
           focusNode.getTopLevelElementOrThrow().insertAfter(tweetNode);
-        } else if ($isNodeSelection(selection) || $isGridSelection(selection)) {
+        } else if ($isNodeSelection(selection) ) {
           const nodes = selection.getNodes();
           nodes[nodes.length - 1]
             .getTopLevelElementOrThrow()

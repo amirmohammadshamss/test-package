@@ -28,7 +28,7 @@ const LexicalTreeView_1 = require("@lexical/react/LexicalTreeView");
 const React = __importStar(require("react"));
 function TreeViewPlugin() {
     const [editor] = (0, LexicalComposerContext_1.useLexicalComposerContext)();
-    return (React.createElement(LexicalTreeView_1.TreeView, { viewClassName: "tree-view-output", timeTravelPanelClassName: "debug-timetravel-panel", timeTravelButtonClassName: "debug-timetravel-button", timeTravelPanelSliderClassName: "debug-timetravel-panel-slider", timeTravelPanelButtonClassName: "debug-timetravel-panel-button", editor: editor }));
+    return (React.createElement(LexicalTreeView_1.TreeView, { viewClassName: "tree-view-output", timeTravelPanelClassName: "debug-timetravel-panel", timeTravelButtonClassName: "debug-timetravel-button", timeTravelPanelSliderClassName: "debug-timetravel-panel-slider", timeTravelPanelButtonClassName: "debug-timetravel-panel-button", editor: editor, treeTypeButtonClassName: '' }));
 }
 exports.default = TreeViewPlugin;
 //# sourceMappingURL=TreeViewPlugin.js.map

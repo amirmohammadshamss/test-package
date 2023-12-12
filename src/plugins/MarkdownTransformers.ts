@@ -63,6 +63,7 @@ export const HR: ElementTransformer = {
     line.selectNext();
   },
   type: 'element',
+  dependencies: []
 };
 
 export const IMAGE: TextMatchTransformer = {
@@ -86,6 +87,7 @@ export const IMAGE: TextMatchTransformer = {
   },
   trigger: ')',
   type: 'text-match',
+  dependencies: []
 };
 
 export const EQUATION: TextMatchTransformer = {
@@ -105,6 +107,7 @@ export const EQUATION: TextMatchTransformer = {
   },
   trigger: '$',
   type: 'text-match',
+  dependencies: []
 };
 
 export const TWEET: ElementTransformer = {
@@ -122,6 +125,7 @@ export const TWEET: ElementTransformer = {
     textNode.replace(tweetNode);
   },
   type: 'element',
+  dependencies: []
 };
 
 // Very primitive table setup
@@ -130,7 +134,7 @@ const TABLE_ROW_REG_EXP = /^(?:\|)(.+)(?:\|)\s?$/;
 export const TABLE: ElementTransformer = {
   export: (
     node: LexicalNode,
-    exportChildren: (elementNode: ElementNode) => string,
+    exportChildren: (elementNode: ElementNode) => string
   ) => {
     if (!$isTableNode(node)) {
       return null;
@@ -207,10 +211,8 @@ export const TABLE: ElementTransformer = {
     }
 
     const previousSibling = parentNode.getPreviousSibling();
-    if (
-      $isTableNode(previousSibling) &&
-      getTableColumnsSize(previousSibling) === maxCells
-    ) {
+    if ($isTableNode(previousSibling) &&
+      getTableColumnsSize(previousSibling) === maxCells) {
       previousSibling.append(...table.getChildren());
       parentNode.remove();
     } else {
@@ -220,6 +222,7 @@ export const TABLE: ElementTransformer = {
     table.selectEnd();
   },
   type: 'element',
+  dependencies: []
 };
 
 function getTableColumnsSize(table: TableNode) {

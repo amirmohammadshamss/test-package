@@ -72,53 +72,12 @@ function AutocompletePlugin() {
             if (searchPromise !== refSearchPromise || newSuggestion === null) {
                 return;
             }
-            editor.update(() => {
-                const selection = (0, lexical_1.$getSelection)();
-                const [hasMatch, match] = $search(selection);
-                if (!hasMatch ||
-                    match !== lastMatch ||
-                    !(0, lexical_1.$isRangeSelection)(selection)) {
-                    return;
-                }
-                const selectionCopy = selection.clone();
-                const node = (0, AutocompleteNode_1.$createAutocompleteNode)(exports.uuid);
-                autocompleteNodeKey = node.getKey();
-                selection.insertNodes([node]);
-                (0, lexical_1.$setSelection)(selectionCopy);
-                lastSuggestion = newSuggestion;
-                setSuggestion(newSuggestion);
-            }, { tag: 'history-merge' });
         }
         function handleAutocompleteNodeTransform(node) {
             const key = node.getKey();
             if (node.__uuid === exports.uuid && key !== autocompleteNodeKey) {
                 $clearSuggestion();
             }
-        }
-        function handleUpdate() {
-            editor.update(() => {
-                const selection = (0, lexical_1.$getSelection)();
-                const [hasMatch, match] = $search(selection);
-                if (!hasMatch) {
-                    $clearSuggestion();
-                    return;
-                }
-                if (match === lastMatch) {
-                    return;
-                }
-                $clearSuggestion();
-                searchPromise = query(match);
-                searchPromise.promise
-                    .then((newSuggestion) => {
-                    if (searchPromise !== null) {
-                        updateAsyncSuggestion(searchPromise, newSuggestion);
-                    }
-                })
-                    .catch((e) => {
-                    console.error(e);
-                });
-                lastMatch = match;
-            });
         }
         function $handleAutocompleteIntent() {
             if (lastSuggestion === null || autocompleteNodeKey === null) {
@@ -154,7 +113,7 @@ function AutocompletePlugin() {
             });
         }
         const rootElem = editor.getRootElement();
-        return (0, utils_1.mergeRegister)(editor.registerNodeTransform(AutocompleteNode_1.AutocompleteNode, handleAutocompleteNodeTransform), editor.registerUpdateListener(handleUpdate), editor.registerCommand(lexical_1.KEY_TAB_COMMAND, $handleKeypressCommand, lexical_1.COMMAND_PRIORITY_LOW), editor.registerCommand(lexical_1.KEY_ARROW_RIGHT_COMMAND, $handleKeypressCommand, lexical_1.COMMAND_PRIORITY_LOW), ...(rootElem !== null
+        return (0, utils_1.mergeRegister)(editor.registerNodeTransform(AutocompleteNode_1.AutocompleteNode, handleAutocompleteNodeTransform), editor.registerCommand(lexical_1.KEY_TAB_COMMAND, $handleKeypressCommand, lexical_1.COMMAND_PRIORITY_LOW), editor.registerCommand(lexical_1.KEY_ARROW_RIGHT_COMMAND, $handleKeypressCommand, lexical_1.COMMAND_PRIORITY_LOW), ...(rootElem !== null
             ? [(0, swipe_1.addSwipeRightListener)(rootElem, handleSwipeRight)]
             : []), unmountSuggestion);
     }, [editor, query, setSuggestion]);

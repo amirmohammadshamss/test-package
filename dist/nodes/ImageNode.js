@@ -28,10 +28,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$isImageNode = exports.$createImageNode = exports.ImageNode = void 0;
 require("./ImageNode.css");
-const LexicalCollaborationPlugin_1 = require("@lexical/react/LexicalCollaborationPlugin");
 const LexicalComposerContext_1 = require("@lexical/react/LexicalComposerContext");
 const LexicalHashtagPlugin_1 = require("@lexical/react/LexicalHashtagPlugin");
-const LexicalHistoryPlugin_1 = require("@lexical/react/LexicalHistoryPlugin");
 const LexicalLinkPlugin_1 = require("@lexical/react/LexicalLinkPlugin");
 const LexicalNestedComposer_1 = require("@lexical/react/LexicalNestedComposer");
 const LexicalRichTextPlugin_1 = require("@lexical/react/LexicalRichTextPlugin");
@@ -41,7 +39,6 @@ const utils_1 = require("@lexical/utils");
 const lexical_1 = require("lexical");
 const React = __importStar(require("react"));
 const react_1 = require("react");
-const collaboration_1 = require("../collaboration");
 const SettingsContext_1 = require("../context/SettingsContext");
 const SharedHistoryContext_1 = require("../context/SharedHistoryContext");
 const EmojisPlugin_1 = __importDefault(require("../plugins/EmojisPlugin"));
@@ -86,9 +83,7 @@ function ImageComponent({ src, altText, nodeKey, width, height, maxWidth, resiza
     const ref = (0, react_1.useRef)(null);
     const [isSelected, setSelected, clearSelection] = (0, useLexicalNodeSelection_1.useLexicalNodeSelection)(nodeKey);
     const [isResizing, setIsResizing] = (0, react_1.useState)(false);
-    const { yjsDocMap } = (0, LexicalCollaborationPlugin_1.useCollaborationContext)();
     const [editor] = (0, LexicalComposerContext_1.useLexicalComposerContext)();
-    const isCollab = yjsDocMap.get('main') !== undefined;
     const [selection, setSelection] = (0, react_1.useState)(null);
     const onDelete = (0, react_1.useCallback)((payload) => {
         if (isSelected && (0, lexical_1.$isNodeSelection)((0, lexical_1.$getSelection)())) {
@@ -104,7 +99,6 @@ function ImageComponent({ src, altText, nodeKey, width, height, maxWidth, resiza
     }, [isSelected, nodeKey, setSelected]);
     (0, react_1.useEffect)(() => {
         return (0, utils_1.mergeRegister)(editor.registerUpdateListener(({ editorState }) => {
-            setSelection(editorState.read(() => (0, lexical_1.$getSelection)()));
         }), editor.registerCommand(lexical_1.CLICK_COMMAND, (payload) => {
             const event = payload;
             if (isResizing) {
@@ -168,8 +162,7 @@ function ImageComponent({ src, altText, nodeKey, width, height, maxWidth, resiza
                     React.createElement(EmojisPlugin_1.default, null),
                     React.createElement(LexicalHashtagPlugin_1.HashtagPlugin, null),
                     React.createElement(KeywordsPlugin_1.default, null),
-                    isCollab ? (React.createElement(LexicalCollaborationPlugin_1.CollaborationPlugin, { id: caption.getKey(), providerFactory: collaboration_1.createWebsocketProvider, shouldBootstrap: true })) : (React.createElement(LexicalHistoryPlugin_1.HistoryPlugin, { externalHistoryState: historyState })),
-                    React.createElement(LexicalRichTextPlugin_1.RichTextPlugin, { contentEditable: React.createElement(ContentEditable_1.default, { className: "ImageNode__contentEditable" }), placeholder: React.createElement(Placeholder_1.default, { className: "ImageNode__placeholder" }, "Enter a caption..."), initialEditorState: null }),
+                    React.createElement(LexicalRichTextPlugin_1.RichTextPlugin, { contentEditable: React.createElement(ContentEditable_1.default, { className: "ImageNode__contentEditable" }), placeholder: React.createElement(Placeholder_1.default, { className: "ImageNode__placeholder" }, "Enter a caption..."), ErrorBoundary: undefined }),
                     showNestedEditorTreeView === true ? React.createElement(TreeViewPlugin_1.default, null) : null))),
             resizable && isFocused && (React.createElement(ImageResizer_1.default, { showCaption: showCaption, setShowCaption: setShowCaption, editor: editor, imageRef: ref, maxWidth: maxWidth, onResizeStart: onResizeStart, onResizeEnd: onResizeEnd })))));
 }

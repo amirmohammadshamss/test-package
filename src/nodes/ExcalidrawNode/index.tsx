@@ -47,9 +47,7 @@ function ExcalidrawComponent({
   nodeKey: NodeKey;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  const [isModalOpen, setModalOpen] = useState<boolean>(
-    data === '[]' && !editor.isReadOnly(),
-  );
+
   const imageContainerRef = useRef<HTMLImageElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isSelected, setSelected, clearSelection] =
@@ -74,13 +72,6 @@ function ExcalidrawComponent({
   );
 
   // Set editor to readOnly if excalidraw is open to prevent unwanted changes
-  useEffect(() => {
-    if (isModalOpen) {
-      editor.setReadOnly(true);
-    } else {
-      editor.setReadOnly(false);
-    }
-  }, [isModalOpen, editor]);
 
   useEffect(() => {
     return mergeRegister(
@@ -100,7 +91,7 @@ function ExcalidrawComponent({
             }
             setSelected(!isSelected);
             if (event.detail > 1) {
-              setModalOpen(true);
+           
             }
             return true;
           }
@@ -123,19 +114,11 @@ function ExcalidrawComponent({
   }, [clearSelection, editor, isSelected, isResizing, onDelete, setSelected]);
 
   const deleteNode = useCallback(() => {
-    setModalOpen(false);
-    return editor.update(() => {
-      const node = $getNodeByKey(nodeKey);
-      if ($isExcalidrawNode(node)) {
-        node.remove();
-      }
-    });
+  
   }, [editor, nodeKey]);
 
   const setData = (newData: ReadonlyArray<ExcalidrawElementFragment>) => {
-    if (editor.isReadOnly()) {
-      return;
-    }
+  
     return editor.update(() => {
       const node = $getNodeByKey(nodeKey);
       if ($isExcalidrawNode(node)) {
@@ -162,21 +145,7 @@ function ExcalidrawComponent({
   const elements = useMemo(() => JSON.parse(data), [data]);
   return (
     <>
-      <ExcalidrawModal
-        initialElements={elements}
-        isShown={isModalOpen}
-        onDelete={deleteNode}
-        onHide={() => {
-          editor.setReadOnly(false);
-          setModalOpen(false);
-        }}
-        onSave={(newData) => {
-          editor.setReadOnly(false);
-          setData(newData);
-          setModalOpen(false);
-        }}
-        closeOnClickOutside={true}
-      />
+    
       {elements.length > 0 && (
         <button
           ref={buttonRef}

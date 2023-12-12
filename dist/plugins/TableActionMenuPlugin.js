@@ -50,13 +50,6 @@ function TableActionMenu({ onClose, tableCellNode: _tableCellNode, setIsMenuOpen
     (0, react_1.useEffect)(() => {
         editor.getEditorState().read(() => {
             const selection = (0, lexical_1.$getSelection)();
-            if ((0, lexical_1.$isGridSelection)(selection)) {
-                const selectionShape = selection.getShape();
-                updateSelectionCounts({
-                    columns: selectionShape.toX - selectionShape.fromX + 1,
-                    rows: selectionShape.toY - selectionShape.fromY + 1,
-                });
-            }
         });
     }, [editor]);
     (0, react_1.useEffect)(() => {
@@ -104,15 +97,6 @@ function TableActionMenu({ onClose, tableCellNode: _tableCellNode, setIsMenuOpen
             const selection = (0, lexical_1.$getSelection)();
             const tableNode = (0, table_1.$getTableNodeFromLexicalNodeOrThrow)(tableCellNode);
             let tableRowIndex;
-            if ((0, lexical_1.$isGridSelection)(selection)) {
-                const selectionShape = selection.getShape();
-                tableRowIndex = shouldInsertAfter
-                    ? selectionShape.toY
-                    : selectionShape.fromY;
-            }
-            else {
-                tableRowIndex = (0, table_1.$getTableRowIndexFromTableCellNode)(tableCellNode);
-            }
             const grid = (0, table_1.$getElementGridForTableNode)(editor, tableNode);
             (0, table_1.$insertTableRow)(tableNode, tableRowIndex, shouldInsertAfter, selectionCounts.rows, grid);
             clearTableSelection();
@@ -124,17 +108,6 @@ function TableActionMenu({ onClose, tableCellNode: _tableCellNode, setIsMenuOpen
             const selection = (0, lexical_1.$getSelection)();
             const tableNode = (0, table_1.$getTableNodeFromLexicalNodeOrThrow)(tableCellNode);
             let tableColumnIndex;
-            if ((0, lexical_1.$isGridSelection)(selection)) {
-                const selectionShape = selection.getShape();
-                tableColumnIndex = shouldInsertAfter
-                    ? selectionShape.toX
-                    : selectionShape.fromX;
-            }
-            else {
-                tableColumnIndex =
-                    (0, table_1.$getTableColumnIndexFromTableCellNode)(tableCellNode);
-            }
-            (0, table_1.$insertTableColumn)(tableNode, tableColumnIndex, shouldInsertAfter, selectionCounts.columns);
             clearTableSelection();
             onClose();
         });

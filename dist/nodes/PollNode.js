@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.$isPollNode = exports.$createPollNode = exports.PollNode = void 0;
 require("./PollNode.css");
-const LexicalCollaborationPlugin_1 = require("@lexical/react/LexicalCollaborationPlugin");
 const LexicalComposerContext_1 = require("@lexical/react/LexicalComposerContext");
 const useLexicalNodeSelection_1 = require("@lexical/react/useLexicalNodeSelection");
 const utils_1 = require("@lexical/utils");
@@ -63,20 +62,12 @@ function getTotalVotes(options) {
     }, 0);
 }
 function PollOptionComponent({ option, index, options, totalVotes, withPollNode, }) {
-    const { clientID } = (0, LexicalCollaborationPlugin_1.useCollaborationContext)();
     const checkboxRef = (0, react_1.useRef)(null);
     const votesArray = option.votes;
-    const checkedIndex = votesArray.indexOf(clientID);
-    const checked = checkedIndex !== -1;
     const votes = votesArray.length;
     const text = option.text;
     return (React.createElement("div", { className: "PollNode__optionContainer" },
-        React.createElement("div", { className: (0, join_classes_1.default)('PollNode__optionCheckboxWrapper', checked && 'PollNode__optionCheckboxChecked') },
-            React.createElement("input", { ref: checkboxRef, className: "PollNode__optionCheckbox", type: "checkbox", onChange: (e) => {
-                    withPollNode((node) => {
-                        node.toggleVote(option, clientID);
-                    });
-                }, checked: checked })),
+        React.createElement("div", { className: (0, join_classes_1.default)('PollNode__optionCheckboxWrapper') }),
         React.createElement("div", { className: "PollNode__optionInputWrapper" },
             React.createElement("div", { className: "PollNode__optionInputVotes", style: { width: `${votes === 0 ? 0 : (votes / totalVotes) * 100}%` } }),
             React.createElement("span", { className: "PollNode__optionInputVotesCount" }, votes > 0 && (votes === 1 ? '1 vote' : `${votes} votes`)),
@@ -111,7 +102,6 @@ function PollComponent({ question, options, nodeKey, }) {
     }, [isSelected, nodeKey, setSelected]);
     (0, react_1.useEffect)(() => {
         return (0, utils_1.mergeRegister)(editor.registerUpdateListener(({ editorState }) => {
-            setSelection(editorState.read(() => (0, lexical_1.$getSelection)()));
         }), editor.registerCommand(lexical_1.CLICK_COMMAND, (payload) => {
             const event = payload;
             if (event.target === ref.current) {

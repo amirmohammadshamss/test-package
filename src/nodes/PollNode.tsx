@@ -7,8 +7,6 @@
  */
 
 import './PollNode.css';
-
-import {useCollaborationContext} from '@lexical/react/LexicalCollaborationPlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {useLexicalNodeSelection} from '@lexical/react/useLexicalNodeSelection';
 import {mergeRegister} from '@lexical/utils';
@@ -92,11 +90,11 @@ function PollOptionComponent({
   totalVotes: number;
   withPollNode: (cb: (pollNode: PollNode) => void) => void;
 }): JSX.Element {
-  const {clientID} = useCollaborationContext();
+
   const checkboxRef = useRef(null);
   const votesArray = option.votes;
-  const checkedIndex = votesArray.indexOf(clientID);
-  const checked = checkedIndex !== -1;
+
+
   const votes = votesArray.length;
   const text = option.text;
 
@@ -105,19 +103,9 @@ function PollOptionComponent({
       <div
         className={joinClasses(
           'PollNode__optionCheckboxWrapper',
-          checked && 'PollNode__optionCheckboxChecked',
+  
         )}>
-        <input
-          ref={checkboxRef}
-          className="PollNode__optionCheckbox"
-          type="checkbox"
-          onChange={(e) => {
-            withPollNode((node) => {
-              node.toggleVote(option, clientID);
-            });
-          }}
-          checked={checked}
-        />
+    
       </div>
       <div className="PollNode__optionInputWrapper">
         <div
@@ -193,7 +181,7 @@ function PollComponent({
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({editorState}) => {
-        setSelection(editorState.read(() => $getSelection()));
+     
       }),
       editor.registerCommand<MouseEvent>(
         CLICK_COMMAND,

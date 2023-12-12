@@ -19,7 +19,7 @@ function TwitterPlugin() {
                 const focusNode = selection.focus.getNode();
                 focusNode.getTopLevelElementOrThrow().insertAfter(tweetNode);
             }
-            else if ((0, lexical_1.$isNodeSelection)(selection) || (0, lexical_1.$isGridSelection)(selection)) {
+            else if ((0, lexical_1.$isNodeSelection)(selection)) {
                 const nodes = selection.getNodes();
                 nodes[nodes.length - 1]
                     .getTopLevelElementOrThrow()
