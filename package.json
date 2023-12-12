@@ -1,12 +1,13 @@
 {
     "name": "simple-package",
     "version": "1.0.0",
-    "main": "./src/index.js",
-    "types": "index.d.ts",
     "description": "A simple npm package",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"test": "jest"
+	},  
     "author": "Your Name",
     "license": "MIT",
     "devDependencies": {
