@@ -2,21 +2,26 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts', // Assuming your entry point is in the 'src' directory
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js'], // Include '.tsx' for TypeScript React files
-  },
+  // ...other configuration
   module: {
     rules: [
       {
         test: /\.tsx?$/, // Match .ts or .tsx files
-        use: 'ts-loader',
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+            },
+          },
+          'ts-loader',
+        ],
         exclude: /node_modules/,
       },
     ],
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'], // Include .tsx, .ts, and .js extensions
+  },
+  // ...other configuration
 };
