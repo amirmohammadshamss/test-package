@@ -1,5 +1,5 @@
 {
-	"name": "next-helper",
+	"name": "text-page",
 	"version": "1.0.0",
 	"description": " A heper library for Next.js",
 	"main": "./dist/index.js",
@@ -8,8 +8,6 @@
 		"build": "tsc",
 		"test": "jest"
 	},
-	"author": "Carlo Nicora",
-	"license": "ISC",
 	"dependencies": {
 	},
 	"devDependencies": {
