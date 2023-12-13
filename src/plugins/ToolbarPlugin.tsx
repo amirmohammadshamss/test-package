@@ -41,7 +41,6 @@ import {
   $isParentElementRTL,
   $patchStyleText,
   $selectAll,
-  $wrapLeafNodesInElements,
 } from '@lexical/selection';
 import {INSERT_TABLE_COMMAND} from '@lexical/table';
 import {
@@ -640,7 +639,7 @@ function BlockFormatDropDown({
         const selection = $getSelection();
 
         if ($isRangeSelection(selection)) {
-          $wrapLeafNodesInElements(selection, () => $createParagraphNode());
+          // $wrapLeafNodesInElements(selection, () => $createParagraphNode());
         }
       });
     }
@@ -652,9 +651,9 @@ function BlockFormatDropDown({
         const selection = $getSelection();
 
         if ($isRangeSelection(selection)) {
-          $wrapLeafNodesInElements(selection, () =>
-            $createHeadingNode(headingSize),
-          );
+          // $wrapLeafNodesInElements(selection, () =>
+          //   $createHeadingNode(headingSize),
+          // );
         }
       });
     }
@@ -690,7 +689,7 @@ function BlockFormatDropDown({
         const selection = $getSelection();
 
         if ($isRangeSelection(selection)) {
-          $wrapLeafNodesInElements(selection, () => $createQuoteNode());
+          // $wrapLeafNodesInElements(selection, () => $createQuoteNode());
         }
       });
     }
@@ -703,7 +702,7 @@ function BlockFormatDropDown({
 
         if ($isRangeSelection(selection)) {
           if (selection.isCollapsed()) {
-            $wrapLeafNodesInElements(selection, () => $createCodeNode());
+            // $wrapLeafNodesInElements(selection, () => $createCodeNode());
           } else {
             const textContent = selection.getTextContent();
             const codeNode = $createCodeNode();
